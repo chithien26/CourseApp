@@ -37,7 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'courses'
 ]
+
+AUTH_USER_MODEL = 'courses.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,8 +78,11 @@ WSGI_APPLICATION = 'ecourses.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'courseappdb',
+        'USER': 'root',
+        'PASSWORD': 'chithien26@',
+        'PORT': ''
     }
 }
 
