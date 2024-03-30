@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='static/users/%Y/%m/')
+    avatar = models.ImageField(upload_to='users/%Y/%m/')
 
     def __str__(self):
         return self.username
@@ -24,11 +24,11 @@ class Tag(BaseModel):
         return self.name
 
 
-class BaseItem(models.Model):
+class BaseItem(BaseModel):
     class Meta:
         abstract = True
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, null=True, blank=True)
 
 class Category(BaseModel):
     name = models.CharField(max_length=100, null=False, unique=True)
