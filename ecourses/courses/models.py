@@ -1,9 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from ckeditor.fields import RichTextField
+#cloudinary
+from cloudinary.models import CloudinaryField
+
 # Create your models here.
 
+
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='users/%Y/%m/')
+    avatar = CloudinaryField('image')
 
     def __str__(self):
         return self.username
@@ -17,7 +22,7 @@ class BaseModel(models.Model):
     active = models.BooleanField(default=True)
 
 
-class Tag(BaseModel):
+class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -28,7 +33,7 @@ class BaseItem(BaseModel):
     class Meta:
         abstract = True
 
-    tags = models.ManyToManyField(Tag, null=True, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
 
 class Category(BaseModel):
     name = models.CharField(max_length=100, null=False, unique=True)
@@ -41,7 +46,7 @@ class Course(BaseItem):
     #     unique_together = ('course','category')
 
     subject = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
+    description = RichTextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -51,7 +56,9 @@ class Lesson(BaseItem):
     # class Meta:
     #     unique_together = ('course', 'lesson')
     name = models.CharField(max_length=100)
-    content = models.TextField()
+    content = RichTextField()
+    image = CloudinaryField('image')
+    image.default = " don't know "
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):
